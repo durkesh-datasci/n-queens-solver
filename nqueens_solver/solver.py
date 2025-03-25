@@ -1,36 +1,40 @@
 def solve_n_queens(n):
-    solutions = []
-    board = [-1] * n  # Store column positions of queens
+    """Finds and prints all solutions to the N-Queens problem."""
+    def print_board(solution, n):
+        """Convert solution array into a matrix format and print."""
+        board = [['0' for _ in range(n)] for _ in range(n)]
+        for row, col in enumerate(solution):
+            board[row][col] = 'Q'
+        for row in board:
+            print(" ".join(row))
+        print("\n")
 
-    def is_safe(row, col):
+    def is_safe(board, row, col):
+        """Check if it's safe to place a queen at board[row][col]."""
         for i in range(row):
-            if board[i] == col or abs(board[i] - col) == row - i:
+            if board[i] == col or \
+               board[i] - i == col - row or \
+               board[i] + i == col + row:
                 return False
         return True
 
-    def backtrack(row):
+    def backtrack(board, row):
+        """Recursive function to place queens."""
         if row == n:
-            solutions.append(board[:])  # Store a valid solution
+            solutions.append(board[:])
             return
         for col in range(n):
-            if is_safe(row, col):
+            if is_safe(board, row, col):
                 board[row] = col
-                backtrack(row + 1)
+                backtrack(board, row + 1)
+                board[row] = -1
 
-    backtrack(0)
-    return solutions
+    solutions = []
+    board = [-1] * n
+    backtrack(board, 0)
 
-def print_board(solutions, n):
-    print(f"Total solutions for {n}-Queens: {len(solutions)}\n")
-    for sol in solutions:
-        print("Solution:")
-        for row in sol:
-            line = ['.'] * n  # Create a row with empty spaces
-            line[row] = 'Q'   # Place the queen
-            print(" ".join(line))
-        print("\n" + "-" * (2 * n - 1) + "\n")  # Separate solutions
+    print(f"Solutions for {n}-Queens:")
+    for solution in solutions:
+        print_board(solution, n)
 
-if __name__ == "__main__":
-    n = 4  # Change this value for different board sizes
-    solutions = solve_n_queens(n)
-    print_board(solutions, n)
+    return solutions  # Returns a list of solutions
