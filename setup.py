@@ -8,7 +8,7 @@ setup(
     description="A Python library to solve the N-Queens problem",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/nqueens_solver",
+    url="https://github.com/durkesh-datasci/n-queens-solver",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
